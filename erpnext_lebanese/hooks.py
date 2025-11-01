@@ -28,6 +28,7 @@ app_license = "mit"
 # app_include_css = "/assets/erpnext_lebanese/css/erpnext_lebanese.css"
 # app_include_js = "/assets/erpnext_lebanese/js/erpnext_lebanese.js"
 
+
 # include js, css files in header of web template
 # web_include_css = "/assets/erpnext_lebanese/css/erpnext_lebanese.css"
 # web_include_js = "/assets/erpnext_lebanese/js/erpnext_lebanese.js"
@@ -78,6 +79,7 @@ app_license = "mit"
 # 	"methods": "erpnext_lebanese.utils.jinja_methods",
 # 	"filters": "erpnext_lebanese.utils.jinja_filters"
 # }
+
 
 # Installation
 # ------------
@@ -242,3 +244,6 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+
+
+setup_wizard_requires = "assets/erpnext_lebanese/js/setup_wizard.js"

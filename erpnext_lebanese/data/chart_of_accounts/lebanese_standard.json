@@ -1,0 +1,301 @@
+{
+    "country_code": "lb", 
+    "name": "Lebanese Standard Chart of Accounts",
+    "tree": {
+        "1000 - COMPTES DE CAPITAUX PERMANENTS": {
+            "root_type": "Equity",
+            "10 - CAPITAL": {
+                "101 - CAPITAL": {
+                    "1010 - CAPITAL": {
+                        "account_type": "Equity",
+                        "account_number": "1010"
+                    },
+                    "1011 - Subscribed Un-Called Capital": {
+                        "account_type": "Equity", 
+                        "account_number": "1011"
+                    },
+                    "1012 - Subscribed Called and Unpaid Capital": {
+                        "account_type": "Equity",
+                        "account_number": "1012" 
+                    },
+                    "1013 - Subscribed Called and Paid-Up Capital": {
+                        "account_type": "Equity",
+                        "account_number": "1013"
+                    }
+                },
+                "102 - PREMIUMS RELATED TO THE CAPITAL": {
+                    "1021 - Issuance Premiums": {
+                        "account_type": "Equity",
+                        "account_number": "1021"
+                    },
+                    "1022 - Merger Premiums": {
+                        "account_type": "Equity",
+                        "account_number": "1022"
+                    },
+                    "1023 - Contributions Premiums": {
+                        "account_type": "Equity", 
+                        "account_number": "1023"
+                    },
+                    "1024 - Conversion Premium of Bonds to Shares": {
+                        "account_type": "Equity",
+                        "account_number": "1024"
+                    }
+                },
+                "103 - REVALUATION VARIANCES": {
+                    "1031 - Non-Amortizable Assets Reval. Variances": {
+                        "account_type": "Equity",
+                        "account_number": "1031"
+                    },
+                    "1035 - Amortizable Assets Reval. Variances": {
+                        "account_type": "Equity",
+                        "account_number": "1035"
+                    }
+                },
+                "109 - OWNER'S CURRENT ACCOUNT": {
+                    "1090 - OWNER'S CURRENT ACCOUNT": {
+                        "account_type": "Equity", 
+                        "account_number": "1090"
+                    }
+                }
+            },
+            "11 - RESERVES": {
+                "1110 - LEGAL RESERVE": {
+                    "account_type": "Equity",
+                    "account_number": "1110"
+                },
+                "1120 - STATUTORY AND CONTRACTUAL RESERVES": {
+                    "account_type": "Equity",
+                    "account_number": "1120"
+                },
+                "1190 - OTHER RESERVES": {
+                    "account_type": "Equity",
+                    "account_number": "1190"
+                }
+            },
+            "12 - BROUGHT FORWARD RESULTS": {
+                "1210 - BROUGHT FORWARD RESULTS - PROFITS": {
+                    "account_type": "Equity", 
+                    "account_number": "1210"
+                },
+                "1250 - BROUGHT FORWARD RESULTS - LOSSES": {
+                    "account_type": "Equity",
+                    "account_number": "1250"
+                }
+            },
+            "13 - CURRENT YEAR RESULT": {
+                "1380 - CURRENT YEAR RESULT - PROFITS": {
+                    "account_type": "Equity",
+                    "account_number": "1380"
+                },
+                "1390 - CURRENT YEAR RESULT - LOSSES": {
+                    "account_type": "Equity",
+                    "account_number": "1390"
+                }
+            },
+            "14 - INVESTMENT SUBSIDIES": {
+                "1410 - INVESTMENT SUBSIDIES RECEIVED": {
+                    "account_type": "Equity",
+                    "account_number": "1410"
+                },
+                "1450 - INVEST. SUBSIDIES TRANSFERED TO RESULTS": {
+                    "account_type": "Equity",
+                    "account_number": "1450"
+                }
+            },
+            "15 - PROVISIONS FOR CONTINGENCIES & CHARGES": {
+                "is_group": 1,
+                "account_number": "15"
+            },
+            "16 - LONG & MEDIUM TERM DEBTS": {
+                "is_group": 1, 
+                "account_number": "16"
+            },
+            "18 - INTERCOMPANIES & INTERBRANCHES ACCOUNTS": {
+                "is_group": 1,
+                "account_number": "18"
+            }
+        },
+        "2000 - FIXED ASSETS": {
+            "root_type": "Asset", 
+            "account_type": "Fixed Asset",
+            "21 - INTANGIBLE FIXED ASSETS": {
+                "is_group": 1,
+                "account_number": "21"
+            },
+            "22 - TANGIBLE FIXED ASSETS": {
+                "is_group": 1,
+                "account_number": "22" 
+            },
+            "25 - FINANCIAL FIXED ASSETS": {
+                "is_group": 1,
+                "account_number": "25"
+            },
+            "28 - DEPRECIATION OF FIXED ASSETS": {
+                "account_type": "Accumulated Depreciation",
+                "account_number": "28"
+            }
+        },
+        "3000 - INVENTORY AND GOODS IN PROCESS": {
+            "root_type": "Asset",
+            "account_type": "Stock", 
+            "3100 - STOCK OF RAW MATERIALS & CONSUMABLES": {
+                "account_type": "Stock",
+                "account_number": "3100"
+            },
+            "3300 - STOCK OF GOODS, WORKS & SERV. IN PROGRESS": {
+                "account_type": "Stock",
+                "account_number": "3300"
+            },
+            "3500 - STOCK OF MANUFACTURED PRODUCTS": {
+                "account_type": "Stock",
+                "account_number": "3500"
+            },
+            "3700 - STOCK OF GOODS FOR SALE": {
+                "account_type": "Stock",
+                "account_number": "3700"
+            }
+        },
+        "4000 - RECEIVABLES & PAYABLES": {
+            "40 - SUPPLIERS": {
+                "root_type": "Liability",
+                "account_type": "Payable", 
+                "is_group": 1,
+                "account_number": "40"
+            },
+            "41 - DEBTORS (CUSTOMERS)": {
+                "root_type": "Asset",
+                "account_type": "Receivable",
+                "is_group": 1,
+                "account_number": "41"
+            },
+            "42 - PERSONEL": {
+                "is_group": 1,
+                "account_number": "42"
+            },
+            "43 - SOCIAL SICURITY": {
+                "is_group": 1,
+                "account_number": "43"
+            },
+            "44 - GOVT & PUBLIC INSTITUTIONS": {
+                "is_group": 1,
+                "account_number": "44" 
+            },
+            "45 - PARTNERS": {
+                "is_group": 1,
+                "account_number": "45"
+            },
+            "46 - MISCELLANEOUIS ACCOUNTS RECEIVABLE & PAYABLE": {
+                "is_group": 1,
+                "account_number": "46"
+            },
+            "47 - PRE-PAYMENTS & ACCRUALS": {
+                "is_group": 1,
+                "account_number": "47"
+            },
+            "48 - COMPTES D'ATTENTE ET À RÉGULARISER": {
+                "is_group": 1,
+                "account_number": "48"
+            },
+            "49 - PROV. FOR DIMUNITION IN VALUE OF(REC. & PAY.)": {
+                "is_group": 1,
+                "account_number": "49"
+            }
+        },
+        "5000 - FINANCIAL ACCOUNTS": {
+            "root_type": "Asset",
+            "53 - CASH": {
+                "5300 - CASH ON HAND": {
+                    "account_type": "Cash",
+                    "account_number": "5300"
+                }
+            },
+            "51 - FINANCIAL INSTITUTIONS": {
+                "is_group": 1,
+                "account_number": "51"
+            }
+        },
+        "6000 - COSTS & EXPENSES": {
+            "root_type": "Expense", 
+            "60 - PURCHASE & VARIATION OF INVENTORY": {
+                "is_group": 1,
+                "account_number": "60"
+            },
+            "61 - PURCHASE RAW MATERIALS & CONSUMABLES": {
+                "is_group": 1,
+                "account_number": "61"
+            },
+            "62 - OTHER CHARCES & DISBURSENENTS": {
+                "is_group": 1,
+                "account_number": "62"
+            },
+            "63 - PERSONNEL CHARCES": {
+                "is_group": 1,
+                "account_number": "63"
+            },
+            "64 - FEES & TAXES": {
+                "is_group": 1,
+                "account_number": "64"
+            },
+            "65 - AMORTIZATION, DEPRECIATION & PROVISIONS (OPER.)": {
+                "is_group": 1,
+                "account_number": "65"
+            },
+            "67 - FINANCIAL CHARCES": {
+                "is_group": 1,
+                "account_number": "67"
+            },
+            "68 - NON OPERATING CHARCES": {
+                "is_group": 1,
+                "account_number": "68"
+            },
+            "69 - INCOME TAX": {
+                "is_group": 1, 
+                "account_number": "69"
+            }
+        },
+        "7000 - INCOME": {
+            "root_type": "Income",
+            "70 - SALES OF GOODS": {
+                "is_group": 1,
+                "account_number": "70"
+            },
+            "71 - SALES OF PRODUCTION": {
+                "is_group": 1,
+                "account_number": "71"
+            },
+            "72 - PRODUCTION (VARIATION)": {
+                "is_group": 1,
+                "account_number": "72"
+            },
+            "73 - PRODUCTION OF FIXED ASSETS": {
+                "is_group": 1,
+                "account_number": "73"
+            },
+            "74 - OPERATING SUBSIDIES": {
+                "is_group": 1,
+                "account_number": "74"
+            },
+            "75 - PROVISION WRITE-BACK": {
+                "is_group": 1,
+                "account_number": "75"
+            },
+            "76 - OTHER OPERATING INCOME": {
+                "is_group": 1,
+                "account_number": "76"
+            },
+            "77 - FINANCIAL REVENUES": {
+                "is_group": 1,
+                "account_number": "77"
+            },
+            "78 - NON OPERATING REVENUES": {
+                "is_group": 1,
+                "account_number": "78"
+            }
+        },
+        "8000 - EXTRA-BALANCE SHEET CONTINGENCY ACCOUNTS": {
+            "root_type": "Equity",
+            "is_group": 1,
+            "account_number": "8000"
+        }
+    }
+}
