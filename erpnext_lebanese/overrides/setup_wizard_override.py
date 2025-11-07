@@ -7,14 +7,13 @@ from erpnext.setup.setup_wizard.operations import install_fixtures as fixtures
 
 def after_install():
     """Called after app installation"""
-    frappe.log_error("Erpnext Lebanese: after_install called", "App installed successfully")
+    pass
 
 def get_setup_stages(args=None):
     """
     Override ERPNext's get_setup_stages to include Lebanese setup
     The company creation will automatically trigger chart installation via doc_events hook
     """
-    frappe.log_error("Erpnext Lebanese: get_setup_stages called", "Override working!")
     
     # Parse args if it's a string
     if isinstance(args, str):
@@ -75,8 +74,6 @@ def stage_fixtures(args):
         except:
             args = {}
     
-    frappe.log_error("Erpnext Lebanese: stage_fixtures called", f"Args type: {type(args)}, Args: {args}")
-    
     # Get country from args or use Lebanon as default for Lebanese setup
     country = None
     if isinstance(args, dict):
@@ -92,7 +89,6 @@ def stage_fixtures(args):
     if not country:
         country = "United States"  # ERPNext's default
     
-    frappe.log_error("Erpnext Lebanese: Installing fixtures for country", country)
     fixtures.install(country)
 
 def setup_company(args):
@@ -129,24 +125,17 @@ def setup_company(args):
 		args_dict['country'] = 'Lebanon'
 		if not args_dict.get('currency'):
 			args_dict['currency'] = 'LBP'
-		frappe.log_error(f"Erpnext Lebanese: Lebanese chart detected: {chart_of_accounts}, setting country to Lebanon", "Info")
 	
 	# Also ensure country is set even if chart name doesn't match exactly
 	if not args_dict.get('country'):
 		args_dict['country'] = 'Lebanon'
-		frappe.log_error("Erpnext Lebanese: No country set, defaulting to Lebanon", "Info")
-	
-	# Log what we're about to do
-	frappe.log_error(f"Erpnext Lebanese: Calling install_company with args: {dict(args_dict)}, allow_unverified_charts={frappe.local.flags.allow_unverified_charts}", "Debug")
 	
 	# Use ERPNext's standard install_company - it will find the chart automatically
 	# The LebaneseCompany override will handle tax template skipping
 	try:
 		fixtures.install_company(args_dict)
 		frappe.db.commit()
-		frappe.log_error("Erpnext Lebanese: install_company completed successfully", "Success")
 	except Exception as e:
-		frappe.log_error(f"Erpnext Lebanese: install_company failed: {str(e)}\n{frappe.get_traceback()}", "Error")
 		frappe.db.rollback()
 		raise
 	
@@ -155,21 +144,9 @@ def setup_company(args):
 		company_name = args_dict.get('company_name')
 		if company_name:
 			company_exists = frappe.db.exists("Company", company_name)
-			if company_exists:
-				frappe.log_error(f"Erpnext Lebanese: Verified company exists: {company_name}", "Success")
-				
-				# Check if accounts were created
-				account_count = frappe.db.sql("select count(*) from tabAccount where company=%s", company_name)[0][0]
-				frappe.log_error(f"Erpnext Lebanese: Account count for {company_name}: {account_count}", "Info")
-			else:
-				frappe.log_error(f"Erpnext Lebanese: WARNING - Company not found after creation: {company_name}", "Warning")
-				# List all companies
-				all_companies = frappe.db.sql("select name from tabCompany")
-				frappe.log_error(f"Erpnext Lebanese: All companies in DB: {all_companies}", "Info")
-		else:
-			frappe.log_error("Erpnext Lebanese: WARNING - No company_name in args", "Warning")
+			if not company_exists:
+				raise Exception(f"Company {company_name} was not created")
 	except Exception as e:
-		frappe.log_error(f"Erpnext Lebanese: Company creation failed: {str(e)}\n{frappe.get_traceback()}", "Error")
 		frappe.db.rollback()
 		raise
 
@@ -227,8 +204,6 @@ def setup_complete(args=None):
     Programmatic setup complete - override ERPNext's method
     This is called via API, so args might be a JSON string
     """
-    frappe.log_error("Erpnext Lebanese: setup_complete called", f"Args type: {type(args)}, Args: {args}")
-    
     # Parse args if it's a string and convert to dict
     if isinstance(args, str):
         try:
@@ -247,8 +222,6 @@ def setup_complete(args=None):
             if not args.get('country'):
                 args['country'] = 'Lebanon'
     
-    frappe.log_error("Erpnext Lebanese: Converted args", f"Args type: {type(args)}, Keys: {list(args.keys()) if args else 'None'}")
-    
     try:
         # Run setup stages - company creation will trigger chart installation via hook
         stage_fixtures(args)
@@ -264,7 +237,6 @@ def setup_complete(args=None):
         }
             
     except Exception as e:
-        frappe.log_error(f"Setup failed: {str(e)}", "Error")
         frappe.db.rollback()
         return {
             "status": "error",

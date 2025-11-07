@@ -55,10 +55,7 @@ def after_install():
 		with open(target_file, 'w') as f:
 			json.dump(chart_data, f, indent=4, ensure_ascii=False)
 		
-		frappe.log_error(f"Lebanese chart copied to: {target_file}", "Installation Success")
-		
 	except Exception as e:
-		frappe.log_error(f"Error copying Lebanese chart: {str(e)}\n{frappe.get_traceback()}", "Installation Error")
 		# Don't fail installation if this fails
 		pass
 

@@ -162,10 +162,7 @@ erpnext.setup.slides_settings = [
 						});
 						if (lebaneseChart) {
 							slide.get_field("chart_of_accounts").set_value(lebaneseChart);
-							frappe.log_error(`Auto-selected chart: ${lebaneseChart}`, "Info");
 						}
-					} else {
-						frappe.log_error("No charts returned from get_lebanese_charts", "Warning");
 					}
 				},
 			});

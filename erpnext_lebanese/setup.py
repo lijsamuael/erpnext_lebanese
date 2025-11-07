@@ -15,5 +15,4 @@ def after_install():
         print("ERPNext Lebanese app installed successfully")
         
     except Exception as e:
-        frappe.log_error(f"Error in erpnext_lebanese after_install: {str(e)}")
         print(f"Error during installation: {str(e)}")
