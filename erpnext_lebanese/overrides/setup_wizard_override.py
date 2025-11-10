@@ -22,7 +22,7 @@ def get_setup_stages(args=None):
         except:
             args = {}
     elif args is None:
-        args = {}
+            args = {}
     
     if frappe.db.sql("select name from tabCompany"):
         # Company already exists, just wrap up
@@ -99,7 +99,7 @@ def setup_company(args):
 	# CRITICAL: Enable unverified charts FIRST, before any company creation
 	# This must be set at the start so it's available when make_records creates the company
 	frappe.local.flags.allow_unverified_charts = True
-	
+        
 	# Parse args if it's a string
 	if isinstance(args, str):
 		try:
@@ -107,8 +107,8 @@ def setup_company(args):
 		except:
 			args = {}
 	elif args is None:
-		args = {}
-	
+            args = {}
+        
 	# Convert to dict if not already
 	if not isinstance(args, dict):
 		args = dict(args) if hasattr(args, '__dict__') else {}
@@ -134,9 +134,9 @@ def setup_company(args):
 	# The LebaneseCompany override will handle tax template skipping
 	try:
 		fixtures.install_company(args_dict)
-		frappe.db.commit()
-	except Exception as e:
-		frappe.db.rollback()
+        frappe.db.commit()
+    except Exception as e:
+        frappe.db.rollback()
 		raise
 	
 	# Verify company was created
@@ -146,9 +146,9 @@ def setup_company(args):
 			company_exists = frappe.db.exists("Company", company_name)
 			if not company_exists:
 				raise Exception(f"Company {company_name} was not created")
-	except Exception as e:
+    except Exception as e:
 		frappe.db.rollback()
-		raise
+        raise
 
 def setup_defaults(args):
 	"""Setup defaults - this runs after company creation"""
@@ -174,7 +174,7 @@ def fin(args):
         except:
             args = {}
     elif args is None:
-        args = {}
+            args = {}
     
     login_as_first_user(args)
 
@@ -187,7 +187,7 @@ def setup_demo(args):
         except:
             args = {}
     elif args is None:
-        args = {}
+            args = {}
     
     if isinstance(args, dict) and args.get("setup_demo"):
         from erpnext.setup.demo import setup_demo_data
@@ -217,24 +217,24 @@ def setup_complete(args=None):
     if isinstance(args, dict):
         chart_of_accounts = args.get('chart_of_accounts', '')
         if 'Lebanese' in chart_of_accounts or 'lebanese' in chart_of_accounts.lower():
-            if not args.get('currency'):
+    if not args.get('currency'):
                 args['currency'] = 'LBP'  # Set Lebanese Pound as default
             if not args.get('country'):
                 args['country'] = 'Lebanon'
     
     try:
         # Run setup stages - company creation will trigger chart installation via hook
-        stage_fixtures(args)
-        setup_company(args)
-        setup_defaults(args)
-        fin(args)
-        
-        # Return exactly what the frontend expects
-        return {
-            "status": "success",
-            "message": "Setup Completed",
-            "home_page": "/desk"
-        }
+            stage_fixtures(args)
+            setup_company(args)
+            setup_defaults(args)
+            fin(args)
+            
+            # Return exactly what the frontend expects
+            return {
+                "status": "success",
+                "message": "Setup Completed",
+                "home_page": "/desk"
+            }
             
     except Exception as e:
         frappe.db.rollback()

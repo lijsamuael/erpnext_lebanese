@@ -2,6 +2,7 @@
 import frappe
 from frappe import _
 from erpnext.setup.doctype.company.company import Company
+from erpnext_lebanese.overrides.chart_of_accounts_create_override import create_charts as lebanese_create_charts
 
 
 class LebaneseCompany(Company):
@@ -10,6 +11,25 @@ class LebaneseCompany(Company):
 	This intercepts the create_default_accounts method and on_update
 	"""
 	
+	def validate(self):
+		"""
+		Ensure Lebanese companies default to the Lebanese chart of accounts
+		whenever a chart is not explicitly selected. This applies to manual
+		company creation after the setup wizard has been completed.
+		"""
+		# If user is creating a Lebanese company manually and has not selected a chart,
+		# default to the Lebanese standard chart that ships with this app.
+		if self.country == "Lebanon":
+			# Enable loading of charts placed in the unverified folder
+			frappe.local.flags.allow_unverified_charts = True
+
+			# Only override when no chart is chosen (or the field is empty/whitespace)
+			if not (self.chart_of_accounts or "").strip():
+				self.chart_of_accounts = "Lebanese Standard Chart of Accounts"
+
+		# Proceed with the standard validations
+		super().validate()
+
 	def on_update(self):
 		"""
 		Override on_update to handle Lebanese companies properly
@@ -86,9 +106,7 @@ class LebaneseCompany(Company):
 	
 	def create_default_accounts(self):
 		"""
-		Override create_default_accounts - ERPNext will handle chart installation naturally
-		from the JSON file we copied to the unverified folder
-		We just need to ensure default accounts are set after installation
+		Override create_default_accounts - Use custom create_charts that handles arabic_name and french_name
 		"""
 		# CRITICAL: Enable unverified charts FIRST - this must be set before create_charts is called
 		frappe.local.flags.allow_unverified_charts = True
@@ -108,24 +126,37 @@ class LebaneseCompany(Company):
 		is_lebanese = (country == "Lebanon" and chart_of_accounts and 
 		              ("Lebanese" in chart_of_accounts or "lebanese" in chart_of_accounts.lower()))
 		
-		# Let ERPNext handle chart installation normally
-		# It will find our Lebanese chart in the unverified folder
-		try:
-			super().create_default_accounts()
-		except Exception as e:
-			raise
-		
-		# After chart installation, set default accounts for Lebanese companies
-		if self.country == "Lebanon" and self.chart_of_accounts:
-			chart_name = self.chart_of_accounts or ""
-			if "Lebanese" in chart_name or "lebanese" in chart_name.lower():
-				try:
-					# Set default accounts after chart installation
-					set_lebanese_default_accounts(self.name)
-					frappe.db.commit()
-				except Exception as e:
-					# Don't fail - accounts are already created
-					pass
+		# Use our custom create_charts for Lebanese companies, otherwise use default
+		if is_lebanese:
+			# Use custom create_charts that handles arabic_name and french_name
+			frappe.local.flags.ignore_root_company_validation = True
+			lebanese_create_charts(self.name, self.chart_of_accounts, self.existing_company)
+			
+			# Set default accounts
+			self.db_set(
+				"default_receivable_account",
+				frappe.db.get_value(
+					"Account", {"company": self.name, "account_type": "Receivable", "is_group": 0}
+				),
+			)
+			self.db_set(
+				"default_payable_account",
+				frappe.db.get_value("Account", {"company": self.name, "account_type": "Payable", "is_group": 0}),
+			)
+			
+			# Set additional default accounts for Lebanese companies
+			try:
+				set_lebanese_default_accounts(self.name)
+				frappe.db.commit()
+			except Exception as e:
+				# Don't fail - accounts are already created
+				pass
+		else:
+			# For non-Lebanese companies, use default behavior
+			try:
+				super().create_default_accounts()
+			except Exception as e:
+				raise
 
 
 # Removed - ERPNext will handle chart installation from the JSON file in unverified folder
