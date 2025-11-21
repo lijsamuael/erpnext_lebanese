@@ -86,6 +86,7 @@ app_include_css = "/assets/erpnext_lebanese/css/account_tree_rtl.css"
 
 # before_install = "erpnext_lebanese.install.before_install"
 after_install = "erpnext_lebanese.install.after_install"
+after_uninstall = "erpnext_lebanese.install.after_uninstall"
 
 # Uninstallation
 # ------------
@@ -172,6 +173,7 @@ override_doctype_class = {
 override_whitelisted_methods = {
 	"erpnext.setup.setup_wizard.setup_wizard.get_setup_stages": "erpnext_lebanese.overrides.setup_wizard_override.get_setup_stages",
 	"erpnext.setup.setup_wizard.setup_wizard.setup_complete": "erpnext_lebanese.overrides.setup_wizard_override.setup_complete",
+	"erpnext.accounts.utils.get_children": "erpnext_lebanese.overrides.treeview_override.get_children",
 }
 #
 # each overriding function accepts a `data` argument;

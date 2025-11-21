@@ -8,6 +8,9 @@ console.log("[erpnext_lebanese] account_tree.js loading...");
 
 	console.log("[erpnext_lebanese] Account tree language controls initialising.");
 
+	// Force the server tree method to use the Lebanese-safe implementation.
+	settings.get_tree_nodes = "erpnext_lebanese.overrides.treeview_override.get_children";
+
 	const LANGUAGE_OPTIONS = [
 		{ label: __("English"), value: "en" },
 		{ label: __("Arabic"), value: "ar" },
