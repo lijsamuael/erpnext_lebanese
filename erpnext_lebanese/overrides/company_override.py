@@ -2,7 +2,13 @@
 import frappe
 from frappe import _
 from erpnext.setup.doctype.company.company import Company
-from erpnext_lebanese.overrides.chart_of_accounts_create_override import create_charts as lebanese_create_charts
+from erpnext_lebanese.overrides.chart_of_accounts_create_override import (
+	create_charts as lebanese_create_charts,
+)
+from erpnext_lebanese.default_accounts import (
+	build_company_structural_defaults,
+	build_default_account_map,
+)
 
 
 class LebaneseCompany(Company):
@@ -163,43 +169,10 @@ class LebaneseCompany(Company):
 
 
 def set_lebanese_default_accounts(company):
-	"""Set default accounts for Lebanese company after chart installation"""
-	company_doc = frappe.get_doc("Company", company)
-	
-	# Set basic default accounts
-	defaults = {
-		"default_receivable_account": frappe.db.get_value(
-			"Account", 
-			{"company": company, "account_type": "Receivable", "is_group": 0},
-			order_by="creation asc"
-		),
-		"default_payable_account": frappe.db.get_value(
-			"Account", 
-			{"company": company, "account_type": "Payable", "is_group": 0},
-			order_by="creation asc"
-		),
-	}
-	
-	# Set cash account if exists
-	cash_account = frappe.db.get_value(
-		"Account",
-		{"company": company, "account_type": "Cash", "is_group": 0},
-		order_by="creation asc"
-	)
-	if cash_account:
-		defaults["default_cash_account"] = cash_account
-	
-	# Set bank account if exists
-	bank_account = frappe.db.get_value(
-		"Account",
-		{"company": company, "account_type": "Bank", "is_group": 0},
-		order_by="creation asc"
-	)
-	if bank_account:
-		defaults["default_bank_account"] = bank_account
-	
-	# Update company with defaults
-	for field, value in defaults.items():
-		if value:
-			company_doc.db_set(field, value)
+	"""Ensure all ERPNext default account hooks point to Lebanese chart accounts."""
+	account_map = build_default_account_map(company)
+	structural_map = build_company_structural_defaults(company)
+	updates = {**structural_map, **account_map}
+	if updates:
+		frappe.db.set_value("Company", company, updates)
 
