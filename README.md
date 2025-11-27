@@ -19,14 +19,14 @@ This custom ERPNext app provides Lebanese-specific accounting features, includin
 ### 1. Lebanese Standard Chart of Accounts
 
 - **8 Root Accounts**: Pre-configured with the standard Lebanese accounting structure:
-  - 1000 - EQUITY & LONG TERM DEBTS (رأس المال)
-  - 2000 - FIXED ASSETS (حسابات الأصول الثابتة)
-  - 3000 - INVENTORY AND GOODS IN PROCESS (المخزون وقيد الصنع)
-  - 4000 - RECEIVABLES & PAYABLES (حسابات الذمم)
-  - 5000 - Transferable Participation Deeds (سندات التوظيف)
-  - 6000 - COSTS & EXPENSES (حسابات الأعباء)
-  - 7000 - INCOME (حسابات الإيرادات)
-  - 8000 - Comptes des Engagements Hors Bilan (حسابات الإلتزامات خارج الميزانية)
+  - 1000 - Equity & Long Term Debts (رأس المال)
+  - 2000 - Fixed Assets (حسابات الأصول الثابتة)
+  - 3000 - Inventory & Goods In Process (المخزون وقيد الصنع)
+  - 4000 - Receivables & Payables (حسابات الذمم)
+  - 5000 - Financial Accounts (الحسابات المالية)
+  - 6000 - Costs & Expenses (حسابات الأعباء)
+  - 7000 - Income (حسابات الإيرادات)
+  - 8000 - Extra-Balance Sheet Contingency Accounts (حسابات الإلتزامات خارج الميزانية)
 
 - **Automatic Installation**: The Lebanese chart is automatically installed when creating a Lebanese company through:
   - Setup Wizard (during initial ERPNext setup)

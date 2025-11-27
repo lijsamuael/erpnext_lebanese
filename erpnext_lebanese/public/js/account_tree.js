@@ -37,13 +37,7 @@ console.log("[erpnext_lebanese] account_tree.js loading...");
 		if (treeview) {
 			const currentLang = treeview.__lebanese_language || "en";
 			if (currentLang === "ar") {
-				// Ensure balance areas use pull-left for RTL
-				setTimeout(() => {
-					const $balanceArea = $(node.parent).find(".balance-area");
-					if ($balanceArea.length) {
-						$balanceArea.removeClass("pull-right").addClass("pull-left");
-					}
-				}, 100);
+				setTimeout(() => ensureArabicBalanceFormatting($(node.parent)), 100);
 			}
 		}
 	};
@@ -66,12 +60,7 @@ console.log("[erpnext_lebanese] account_tree.js loading...");
 			if (currentLang === "ar") {
 				setTimeout(() => {
 					const $wrapper = treeview.tree?.wrapper;
-					if ($wrapper) {
-						$wrapper.find(".balance-area").each(function() {
-							const $el = $(this);
-							$el.removeClass("pull-right").addClass("pull-left");
-						});
-					}
+					ensureArabicBalanceFormatting($wrapper);
 				}, 200);
 			}
 		}
@@ -243,8 +232,8 @@ console.log("[erpnext_lebanese] account_tree.js loading...");
 			$wrapper.find(".tree-node").css("text-align", "right");
 			$wrapper.find(".tree-children").css("text-align", "right");
 			
-			// Change balance-area from pull-right to pull-left for RTL
-			$wrapper.find(".balance-area").removeClass("pull-right").addClass("pull-left").css("text-align", "left");
+			setupRTLBalanceObserver(treeview);
+			ensureArabicBalanceFormatting($wrapper);
 		} else {
 			// Revert to LTR
 			$wrapper.attr("dir", "ltr").removeClass("rtl-tree").css("text-align", "left");
@@ -262,8 +251,8 @@ console.log("[erpnext_lebanese] account_tree.js loading...");
 			$wrapper.find(".tree-node").css("text-align", "left");
 			$wrapper.find(".tree-children").css("text-align", "left");
 			
-			// Change balance-area back to pull-right for LTR
-			$wrapper.find(".balance-area").removeClass("pull-left").addClass("pull-right").css("text-align", "right");
+			teardownRTLBalanceObserver(treeview);
+			resetBalanceFormatting($wrapper);
 		}
 	}
 
@@ -304,6 +293,77 @@ console.log("[erpnext_lebanese] account_tree.js loading...");
 				updateNodeLabel(node);
 			}
 		});
+	}
+
+	function ensureArabicBalanceFormatting($context) {
+		if (!$context || !$context.length) return;
+
+		const $balances = $context.hasClass("balance-area")
+			? $context
+			: $context.find(".balance-area");
+
+		$balances.each(function () {
+			const $el = $(this);
+			$el.removeClass("pull-right").addClass("pull-left");
+			$el.css({
+				float: "left",
+				"text-align": "left",
+				direction: "ltr",
+			});
+		});
+	}
+
+	function resetBalanceFormatting($context) {
+		if (!$context || !$context.length) return;
+
+		const $balances = $context.hasClass("balance-area")
+			? $context
+			: $context.find(".balance-area");
+
+		$balances.each(function () {
+			const $el = $(this);
+			$el.removeClass("pull-left").addClass("pull-right");
+			$el.css({
+				float: "",
+				"text-align": "",
+				direction: "",
+			});
+		});
+	}
+
+	function setupRTLBalanceObserver(treeview) {
+		if (!window.MutationObserver) {
+			return;
+		}
+		if (treeview.__rtl_balance_observer || !treeview.tree?.wrapper?.length) {
+			return;
+		}
+
+		const target = treeview.tree.wrapper[0];
+		const observer = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				mutation.addedNodes.forEach((node) => {
+					if (node.nodeType !== 1) return;
+					const $node = $(node);
+					if ($node.hasClass("balance-area")) {
+						ensureArabicBalanceFormatting($node);
+					} else {
+						ensureArabicBalanceFormatting($node);
+					}
+				});
+			});
+		});
+
+		observer.observe(target, { childList: true, subtree: true });
+		treeview.__rtl_balance_observer = observer;
+	}
+
+	function teardownRTLBalanceObserver(treeview) {
+		const observer = treeview.__rtl_balance_observer;
+		if (observer) {
+			observer.disconnect();
+			delete treeview.__rtl_balance_observer;
+		}
 	}
 
 	function updateNodeLabel(node) {

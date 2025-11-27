@@ -43,10 +43,13 @@
 	margin-left: 0;
 }
 
-.tree[dir="rtl"] .balance-area.pull-left,
-.tree.rtl-tree .balance-area.pull-left {
+.tree[dir="rtl"] .balance-area,
+.tree[dir="rtl"] .balance-area.pull-right,
+.tree.rtl-tree .balance-area,
+.tree.rtl-tree .balance-area.pull-right {
 	float: left !important;
 	text-align: left;
+	direction: ltr;
 }
 
 @media (max-width: 767px) {
@@ -56,4 +59,3 @@
 		padding-left: 0;
 	}
 }
-
