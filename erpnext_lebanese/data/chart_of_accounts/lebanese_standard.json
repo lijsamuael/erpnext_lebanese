@@ -816,14 +816,15 @@
       "arabic_name": "حسابات الذمم",
       "french_name": "Comptes de Tiers",
       "Suppliers": {
-        "root_type": "Liability",
+        "root_type": "Equity",
         "account_number": "40",
         "arabic_name": "الموردون",
         "french_name": "Fournisseurs",
         "Accounts Payables (Suppliers)": {
           "account_number": "401",
+          "root_type": "Liability",
           "arabic_name": "ذمم دائنة (موردو الإستثمار)",
-          "french_name": "Fournisseurs d’Exploitation",
+          "french_name": "Fournisseurs d'Exploitation",
           "Suppliers - Invoices Payable": {
             "account_number": "4011",
             "arabic_name": "موردو الاستثمار - فواتير برسم الدفع",

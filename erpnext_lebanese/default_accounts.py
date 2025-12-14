@@ -53,6 +53,12 @@ ACCOUNT_BLUEPRINTS = {
 		"root_type": "Expense",
 		"report_type": "Profit and Loss",
 	},
+	"stock_received_but_not_billed_account": {
+		"account_number": "3300",
+		"account_type": "Stock Received But Not Billed",
+		"root_type": "Liability",
+		"report_type": "Balance Sheet",
+	},
 	"write_off_account": {"account_number": "6851.5", "account_type": "Expense Account"},
 	"exchange_gain_loss_account": {
 		"account_number": "6751",

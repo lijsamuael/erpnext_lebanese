@@ -50,9 +50,8 @@ def create_charts(
 				if not isinstance(child, dict):
 					continue
 
-				current_root_type = root_type
-				if root_account:
-					current_root_type = child.get("root_type", root_type)
+				# Allow root_type to be overridden at any level, not just root accounts
+				current_root_type = child.get("root_type", root_type)
 
 				account_number = cstr(child.get("account_number")).strip()
 				account_name, account_name_in_db = add_suffix_if_duplicate(
